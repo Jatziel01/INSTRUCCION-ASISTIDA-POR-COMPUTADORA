@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+public class InstruccionAsistidaPorComputadora {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("¡Bienvenido a la Instrucción Asistida por Computadora!");
+        System.out.print("Por favor, ingresa tu instrucción: ");
+        String instruccion = scanner.nextLine();
+
+        // Lógica de asistencia basada en la instrucción recibida
+        String respuesta = asistir(instruccion);
+
+        System.out.println("Respuesta: " + respuesta);
+    }
+
+    public static String asistir(String instruccion) {
+        // Aquí puedes implementar la lógica para procesar la instrucción y proporcionar una respuesta asistida
+        // Puedes usar condicionales, bucles y estructuras de datos según tus necesidades
+
+        // Ejemplo básico: responder con un mensaje predeterminado
+        String respuesta = "No puedo asistir con esa instrucción.";
+
+        // Ejemplo de asistencia específica
+        if (instruccion.equalsIgnoreCase("¿Cuál es la fecha actual?")) {
+            respuesta = "La fecha actual es: " + obtenerFechaActual();
+        }
+
+        return respuesta;
+    }
+
+    public static String obtenerFechaActual() {
+        // Aquí puedes implementar la lógica para obtener la fecha actual
+        // Puedes usar clases como LocalDate, SimpleDateFormat, etc.
+        // Por simplicidad, aquí se usará la fecha actual como una cadena estática
+        return "04 de junio de 2023";
+    }
+}
