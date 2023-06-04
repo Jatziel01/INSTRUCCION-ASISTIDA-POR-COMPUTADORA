@@ -1,0 +1,129 @@
+import java.security.SecureRandom;
+import java.util.Random;
+import java.util.Scanner;
+
+public class InstruccionAsistidaPorComputadora {
+
+    private static final int NUMERO_PREGUNTAS = 10;
+
+    private static final String[] RESPUESTAS_POSITIVAS = {
+        "¡Muy bien!",
+        "¡Excelente!",
+        "¡Buen trabajo!",
+        "¡Sigue así!"
+    };
+
+    private static final String[] RESPUESTAS_NEGATIVAS = {
+        "No. Por favor intenta de nuevo.",
+        "Incorrecto. Intenta una vez más.",
+        "¡No te rindas!",
+        "No. Sigue intentando."
+    };
+
+    private static final SecureRandom secureRandom = new SecureRandom();
+    private static final Random random = new Random();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("¡Bienvenido a la Instrucción Asistida por Computadora para operaciones aritméticas básicas!");
+        System.out.println("Elige el nivel de dificultad:");
+        System.out.println("1. Números de un dígito");
+        System.out.println("2. Números de dos dígitos");
+        // Añade más niveles de dificultad según tus necesidades
+
+        int nivelDificultad = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Elige el tipo de problema aritmético a estudiar:");
+        System.out.println("1. Suma");
+        System.out.println("2. Resta");
+        System.out.println("3. Multiplicación");
+        System.out.println("4. División");
+        System.out.println("5. Mezcla aleatoria");
+
+        int tipoProblema = scanner.nextInt();
+        scanner.nextLine();
+
+        int preguntasCorrectas = 0;
+        int preguntasRealizadas = 0;
+
+        while (preguntasCorrectas < NUMERO_PREGUNTAS) {
+            int numero1 = generarNumero(nivelDificultad);
+            int numero2 = generarNumero(nivelDificultad);
+            String operador = obtenerOperador(tipoProblema);
+
+            String pregunta = "¿Cuánto es " + numero1 + " " + operador + " " + numero2 + "?";
+            int respuestaCorrecta = obtenerRespuestaCorrecta(numero1, numero2, operador);
+
+            System.out.print(pregunta + " ");
+            int respuestaUsuario = scanner.nextInt();
+            scanner.nextLine();
+
+            if (respuestaUsuario == respuestaCorrecta) {
+                preguntasCorrectas++;
+                System.out.println(obtenerRespuestaPositivaAleatoria());
+            } else {
+                System.out.println(obtenerRespuestaNegativaAleatoria());
+            }
+
+            preguntasRealizadas++;
+        }
+
+        double porcentajeRespuestasCorrectas = (double) preguntasCorrectas / preguntasRealizadas * 100;
+
+        if (porcentajeRespuestasCorrectas < 75) {
+            System.out.println("Por favor pide ayuda adicional a tu instructor.");
+        } else {
+            System.out.println("Felicidades, estás listo para pasar al siguiente nivel!");
+        }
+    }
+
+    private static int generarNumero(int nivelDificultad) {
+        int limiteSuperior = (int) Math.pow(10, nivelDificultad) - 1;
+        return secureRandom.nextInt(limiteSuperior) + 1;
+    }
+
+    private static String obtenerOperador(int tipoProblema) {
+        switch (tipoProblema) {
+            case 1:
+                return "+";
+            case 2:
+                return "-";
+            case 3:
+                return "*";
+            case 4:
+                return "/";
+            case 5:
+                int tipoOperacion = secureRandom.nextInt(4) + 1;
+                return obtenerOperador(tipoOperacion);
+            default:
+                throw new IllegalArgumentException("Tipo de problema inválido");
+        }
+    }
+
+    private static int obtenerRespuestaCorrecta(int numero1, int numero2, String operador) {
+        switch (operador) {
+            case "+":
+                return numero1 + numero2;
+            case "-":
+                return numero1 - numero2;
+            case "*":
+                return numero1 * numero2;
+            case "/":
+                return numero1 / numero2;
+            default:
+                throw new IllegalArgumentException("Operador inválido");
+        }
+    }
+
+    private static String obtenerRespuestaPositivaAleatoria() {
+        int indice = random.nextInt(RESPUESTAS_POSITIVAS.length);
+        return RESPUESTAS_POSITIVAS[indice];
+    }
+
+    private static String obtenerRespuestaNegativaAleatoria() {
+        int indice = random.nextInt(RESPUESTAS_NEGATIVAS.length);
+        return RESPUESTAS_NEGATIVAS[indice];
+    }
+}
